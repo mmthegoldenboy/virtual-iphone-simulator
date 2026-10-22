@@ -5,17 +5,20 @@ import { apps } from "@/data/apps";
 import { contacts } from "@/data/contacts";
 import { conversations } from "@/data/conversations";
 import { notes } from "@/data/notes";
+import { imagePaths } from "@/data/image-paths";
+import { AppIcon } from "./app-icon";
 import { lockscreenNotifications } from "@/data/notifications";
 
 const formatTime = () => {
-  return new Date().toLocaleTimeString([], {
+  return new Date().toLocaleTimeString("en-US", {
     hour: "numeric",
     minute: "2-digit",
+    hour12: false,
   });
 };
 
 const formatDate = () => {
-  return new Date().toLocaleDateString("ko-KR", {
+  return new Date().toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     weekday: "long",
@@ -40,6 +43,9 @@ export default function IphoneSimulator() {
   const [passwordError, setPasswordError] = useState(false);
   const [unlockedNotes, setUnlockedNotes] = useState<Record<string, boolean>>({});
   const [popupApp, setPopupApp] = useState<{ name: string; message: string } | null>(null);
+  const [clock, setClock] = useState({ time: "9:41", date: "Thursday, October 22" });
+  const [search, setSearch] = useState("");
+  const swipeStart = useRef<number | null>(null);
   const chatScrollRef = useRef<HTMLDivElement | null>(null);
 
   const selectedContact = useMemo(
@@ -49,8 +55,7 @@ export default function IphoneSimulator() {
 
   const selectedConversation = useMemo(
     () =>
-      conversations.find((conversation) => conversation.contactId === selectedContactId) ??
-      conversations[0],
+      conversations.find((conversation) => conversation.contactId === selectedContactId),
     [selectedContactId]
   );
 
@@ -74,7 +79,7 @@ export default function IphoneSimulator() {
       return;
     }
 
-    const popupMessage = app.popupMessage ?? "이 콘텐츠는 열람할 수 없습니다.";
+    const popupMessage = "This app is a preview. Its content is private in this simulator.";
     setPopupApp({ name: app.name, message: popupMessage });
     setScreen("popup");
   };
@@ -129,17 +134,29 @@ export default function IphoneSimulator() {
     }
   }, [selectedContactId, screen]);
 
-  const currentTime = formatTime();
-  const currentDate = formatDate();
+  useEffect(() => {
+    const update = () => setClock({ time: formatTime(), date: formatDate() });
+    update();
+    const timer = window.setInterval(update, 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+  const currentTime = clock.time;
+  const currentDate = clock.date;
+  const contactLabel = (contact: typeof contacts[number]) => contact.name?.trim() || contact.phone?.trim() || "Unknown contact";
 
   return (
     <div className="app-shell">
       <div className="iphone-frame">
+        <button className="side-lock" aria-label="Lock phone" onClick={() => setScreen("lockscreen")} />
         <div className="iphone-screen">
           <div className="notch" />
 
           {screen === "lockscreen" && (
-            <div className="lock-screen" style={{ backgroundImage: "url('/images/lockscreen.png')" }}>
+            <div className="lock-screen" style={{ backgroundImage: `url(${imagePaths.lockscreen})` }}
+              onPointerDown={(event) => { swipeStart.current = event.clientY; }}
+              onPointerUp={(event) => { if (swipeStart.current !== null && swipeStart.current - event.clientY > 45) unlockPhone(); swipeStart.current = null; }}
+              onPointerCancel={() => { swipeStart.current = null; }}>
+
               <div className="status-bar">
                 <div className="status-left">{currentTime}</div>
                 <div className="status-right">
@@ -155,7 +172,7 @@ export default function IphoneSimulator() {
 
               <div className="lock-screen-content">
                 <div>
-                  <div className="lock-time">{currentTime}</div>
+                  <div className="lock-symbol" aria-hidden="true">♙</div><div className="lock-time">{currentTime}</div>
                   <div className="lock-date">{currentDate}</div>
 
                   <div className="notification-stack">
@@ -178,26 +195,18 @@ export default function IphoneSimulator() {
                   </div>
                 </div>
 
-                <div className="lock-tools">
-                  <div className="tool-badge" aria-label="flashlight">
-                    🔦
-                  </div>
-                  <div className="tool-badge" aria-label="camera">
-                    📷
-                  </div>
-                </div>
               </div>
 
               <div className="unlock-row">
                 <button className="unlock-pill" onClick={unlockPhone} type="button">
-                  잠금 해제
+                  Swipe up or tap to unlock
                 </button>
               </div>
             </div>
           )}
 
-          {screen === "home" && (
-            <div className="home-screen" style={{ backgroundImage: "url('/images/homescreen.png')" }}>
+          {(screen === "home" || screen === "popup") && (
+            <div className="home-screen" style={{ backgroundImage: `url(${imagePaths.homescreen})` }}>
               <div className="status-bar">
                 <div className="status-left">{currentTime}</div>
                 <div className="status-right">
@@ -212,7 +221,7 @@ export default function IphoneSimulator() {
               </div>
 
               <div className="home-content">
-                <div />
+                <div className="home-date">{currentDate}<span>Make yourself at home.</span></div>
 
                 <div className="app-grid">
                   {apps.map((app) => (
@@ -222,12 +231,9 @@ export default function IphoneSimulator() {
                       onClick={() => openApp(app.id)}
                       type="button"
                     >
-                      <div className="app-icon">
-                        {app.image ? (
-                          <img src={app.image} alt={app.name} />
-                        ) : (
-                          <span>{app.icon}</span>
-                        )}
+                      <div className="icon-wrap">
+                        <AppIcon id={app.id} image={app.image} />
+                        {app.badge && <span className="app-badge">{app.badge}</span>}
                       </div>
                       <span className="app-name">{app.name}</span>
                     </button>
@@ -242,13 +248,13 @@ export default function IphoneSimulator() {
               <div className="header-bar">
                 <div className="header-left">
                   {screen === "messages-chat" && (
-                    <button className="back-button" onClick={() => setScreen("messages-list")} type="button">
+                    <button aria-label="Back" className="back-button" onClick={() => setScreen("messages-list")} type="button">
                       ‹
                     </button>
                   )}
                 </div>
                 <div className="screen-title" style={{ marginLeft: screen === "messages-chat" ? 0 : "auto" }}>
-                  {screen === "messages-chat" ? selectedContact.name : "메시지"}
+                  {screen === "messages-chat" ? contactLabel(selectedContact) : "Messages"}
                 </div>
                 <div className="header-right" />
               </div>
@@ -256,10 +262,11 @@ export default function IphoneSimulator() {
               {screen === "messages-list" && (
                 <>
                   <div className="messages-header">
-                    <input className="search-box" placeholder="검색" readOnly />
+                    <h1>Messages</h1><input className="search-box" aria-label="Search conversations" placeholder="Search" value={search} onChange={(event) => setSearch(event.target.value)} />
                   </div>
                   <div className="conversation-list">
-                    {contacts.map((contact) => {
+                    {search && !contacts.some((contact) => `${contactLabel(contact)} ${contact.lastPreview}`.toLowerCase().includes(search.toLowerCase())) && <p className="empty-state">No conversations found.</p>}
+                    {contacts.filter((contact) => `${contactLabel(contact)} ${contact.lastPreview}`.toLowerCase().includes(search.toLowerCase())).map((contact) => {
                       const preview =
                         conversations.find((conversation) => conversation.contactId === contact.id)?.messages.at(-1)
                           ?.content ?? contact.lastPreview;
@@ -277,8 +284,8 @@ export default function IphoneSimulator() {
 
                           <div className="conversation-meta">
                             <div className="contact-name-row">
-                              <span className="contact-name">{contact.name}</span>
-                              <span className="last-time">오후</span>
+                              <span className="contact-name">{contactLabel(contact)}</span>
+                              <span className="row-chevron" aria-hidden="true">›</span>
                             </div>
                             <div className="preview-row">
                               <span className="preview-text">{preview}</span>
@@ -294,41 +301,34 @@ export default function IphoneSimulator() {
 
               {screen === "messages-chat" && (
                 <div className="chat-screen">
-                  <div className="chat-bg" style={{ backgroundImage: "url('/images/lockscreen.png')" }} />
+                  
 
                   <div className="chat-header">
                     <div className="chat-identity">
                       <div className="avatar blue">{selectedContact.avatarText}</div>
-                      <div className="chat-name">{selectedContact.name}</div>
+                      <div className="chat-name">{contactLabel(selectedContact)}</div>
                     </div>
                   </div>
 
                   <div className="chat-body" ref={chatScrollRef}>
-                    {selectedConversation.messages.map((message) => (
+                    {selectedConversation?.messages.map((message) => (
                       <div key={message.id} className={`chat-row ${message.sender === "me" ? "me" : "other"}`}>
-                        {message.sender === "other" && <div className="typing-avatar">CH</div>}
+                        {message.sender === "other" && <div className="typing-avatar">{selectedContact.avatarText}</div>}
 
                         <div className="bubble-stack">
                           <div className={`chat-bubble ${message.sender === "me" ? "me" : "other"}`}>
                             {message.content}
                           </div>
-                          {message.sender === "me" && message.read && <div className="read-mark">읽음</div>}
+                          {message.sender === "me" && message.read && <div className="read-mark">Read</div>}
                         </div>
                       </div>
                     ))}
 
-                    <div className="typing-row">
-                      <div className="typing-avatar">CH</div>
-                      <div className="typing-bubble">
-                        <span className="typing-dot" />
-                        <span className="typing-dot" />
-                        <span className="typing-dot" />
-                      </div>
-                    </div>
+                    {!selectedConversation && <p className="empty-state">No messages yet.<br />This conversation is ready for a new story.</p>}
                   </div>
 
                   <div className="chat-input-box">
-                    <input className="chat-input" value="메시지" readOnly />
+                    <input className="chat-input" placeholder="iMessage · preview only" aria-label="Message preview" readOnly />
                   </div>
                 </div>
               )}
@@ -340,12 +340,12 @@ export default function IphoneSimulator() {
               <div className="header-bar">
                 <div className="header-left">
                   {(screen === "notes-detail" || screen === "note-password") && (
-                    <button className="back-button" onClick={() => setScreen("notes-list")} type="button">
+                    <button aria-label="Back" className="back-button" onClick={() => setScreen("notes-list")} type="button">
                       ‹
                     </button>
                   )}
                 </div>
-                <div className="screen-title">메모</div>
+                <div className="screen-title">Notes</div>
                 <div className="header-right" />
               </div>
 
@@ -360,7 +360,7 @@ export default function IphoneSimulator() {
                     >
                       <div className="note-top">
                         <span className="note-title">{note.title}</span>
-                        {note.locked && <span className="note-lock">🔒</span>}
+                        {note.locked && <span className="note-lock">Locked</span>}
                       </div>
                       <div className="note-preview">{note.preview}</div>
                     </button>
@@ -370,7 +370,7 @@ export default function IphoneSimulator() {
 
               {screen === "note-password" && selectedNote && (
                 <div className="password-box">
-                  <label>잠금 메모 비밀번호</label>
+                  <label>Demo note passcode</label>
                   <input
                     type="password"
                     value={notePassword}
@@ -379,11 +379,11 @@ export default function IphoneSimulator() {
                       setPasswordError(false);
                     }}
                     inputMode="numeric"
-                    placeholder="숫자 6자리"
+                    placeholder="6-digit demo code"
                   />
-                  {passwordError && <div className="error-text">비밀번호가 틀렸습니다.</div>}
+                  {passwordError && <div className="error-text">Incorrect demo code. Try again.</div>}
                   <button onClick={handlePasswordSubmit} type="button">
-                    확인
+                    Done
                   </button>
                 </div>
               )}
@@ -393,7 +393,7 @@ export default function IphoneSimulator() {
                   <h3>{selectedNote.title}</h3>
                   <p>
                     {selectedNote.locked && !(unlockedNotes[selectedNote.id] ?? false)
-                      ? "잠긴 메모입니다."
+                      ? "This demo note is locked."
                       : selectedNote.content}
                   </p>
                 </div>
@@ -401,20 +401,21 @@ export default function IphoneSimulator() {
             </div>
           )}
 
+          {screen !== "lockscreen" && <button className="home-indicator" aria-label="Return to home screen" onClick={() => { setPopupApp(null); setScreen("home"); }} />}
           {screen === "popup" && popupApp && (
             <div className="popup-overlay" onClick={closePopup} role="button" tabIndex={0} onKeyDown={(event) => {
               if (event.key === "Enter" || event.key === " ") {
                 closePopup();
               }
             }}>
-              <div className="popup-card" onClick={(event) => event.stopPropagation()}>
+              <div className="popup-card" role="dialog" aria-modal="true" aria-label={popupApp.name} onClick={(event) => event.stopPropagation()}>
                 <div className="popup-content">
                   <div className="popup-title">{popupApp.name}</div>
                   <div className="popup-message">{popupApp.message}</div>
                 </div>
                 <div className="popup-actions">
                   <button onClick={closePopup} type="button">
-                    확인
+                    Done
                   </button>
                 </div>
               </div>

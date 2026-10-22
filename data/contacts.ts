@@ -17,19 +17,19 @@ export const contacts: Contact[] = [
     name: "Captain Hollander",
     phone: "+82 10-1234-5678",
     avatarText: "CH",
-    lastPreview: "작성 중…",
+    lastPreview: "See you when I get back.",
     unreadCount: 1,
   },
   {
     id: "unknown-1",
     phone: "+82 10-9876-5432",
     avatarText: "N",
-    lastPreview: "메시지가 도착했습니다.",
+    lastPreview: "You have a new message.",
   },
   {
     id: "unknown-2",
     phone: "+82 10-3333-2222",
     avatarText: "U",
-    lastPreview: "지금 통화 가능해?",
+    lastPreview: "Are you free for a call?",
   },
 ];

@@ -889,3 +889,85 @@ body {
     border-radius: 0;
   }
 }
+
+/* Device finish and restrained, native screen geometry. */
+html, body { background: #e9ece7; color: #242824; }
+.app-shell { min-height: 100dvh; padding: 24px; background: radial-gradient(ellipse at 58% 28%, #fafbf7, #e9ece7 60%, #d9ded7); }
+.iphone-frame { width: min(390px, calc(100vw - 32px), calc((100dvh - 48px) * .475)); height: auto; aspect-ratio: 390 / 820; padding: 8px; border: 3px solid #8b8c86; border-radius: 57px; background: #121412; box-shadow: inset 0 0 0 2px #363934, 0 0 0 1px #c9cac4, 0 32px 65px -18px #30382e77, 0 8px 15px #30382e22; }
+.iphone-frame::before { content: ''; position: absolute; left: -5px; top: 120px; width: 3px; height: 56px; border-radius: 3px; background: #777a74; box-shadow: 0 70px #777a74; }
+.side-lock { position: absolute; right: -5px; top: 185px; width: 4px; height: 65px; border: 0; border-radius: 3px; background: #777a74; padding: 0; cursor: pointer; }
+.iphone-screen { border-radius: 45px; isolation: isolate; background: #f7f8f5; container-type: inline-size; }
+.notch { top: 12px; width: 106px; height: 29px; background: #090b0a; z-index: 50; }
+.notch::after { content: ''; position: absolute; right: 10px; top: 9px; width: 9px; height: 9px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #23394a, #0c1015); }
+.status-bar { height: 49px; padding: 8px 26px 0; font-size: 13px; }
+.status-left { letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.status-right { gap: 6px; }
+.signal { gap: 2px; }
+.battery { width: 22px; height: 11px; }
+.lock-screen, .home-screen { background-color: #61715f; background-image: radial-gradient(ellipse at 80% 30%, #c7c9ac, transparent 60%), linear-gradient(140deg,#536650,#9ba58b,#374e48); animation: screenIn .35s ease both; }
+.lock-screen { padding: 0; touch-action: none; }
+.lock-screen::before { background: linear-gradient(180deg,#15231d33,transparent 40%,#101b2299); }
+.lock-screen-content { padding: 83px 18px 80px; }
+.lock-screen-content > div:first-child { flex: 1; display: flex; flex-direction: column; align-items: center; min-height: 0; }
+.lock-symbol { font-size: 0; width: 14px; height: 13px; border: 2px solid #fff; border-radius: 3px; position: relative; margin: 3px 0 26px; opacity: .9; }
+.lock-symbol::before { content: ''; position: absolute; width: 7px; height: 7px; border: 2px solid #fff; border-bottom: 0; border-radius: 6px 6px 0 0; left: 1.5px; top: -9px; }
+.lock-time { font-size: 25cqw; font-weight: 600; letter-spacing: -.065em; line-height: 1.05; order: 2; }
+.lock-date { order: 1; margin: 0 0 5px; font-size: 15px; }
+.lock-symbol { order: 0; }
+.notification-stack { order: 3; width: 100%; height: auto; margin-top: auto; display: flex; flex-direction: column; gap: 8px; padding-top: 20px; }
+.notification-card { position: relative; inset: auto !important; background: #e7ece6c9; color: #252b27; border: 1px solid #ffffff50; backdrop-filter: blur(24px); border-radius: 21px; padding: 12px 15px; box-shadow: 0 5px 18px #101b221a; }
+.notification-card:nth-child(2) { margin: 0 6px; }
+.notification-app { font-size: 11px; font-weight: 600; }
+.notification-dot { background: #53ad68; }
+.notification-card:nth-child(2) .notification-dot { background: #f66c78; }
+.notification-body { font-size: 14px; }.notification-meta { font-size: 12px; margin-top: 3px; }
+.unlock-row { position: absolute; bottom: 16px; left: 0; padding: 0; z-index: 4; }
+.unlock-pill { height: 43px; width: 85%; background: transparent; box-shadow: none; font-size: 12px; font-weight: 500; }
+.unlock-row::after { content: ''; position: absolute; bottom: -7px; width: 32%; height: 5px; border-radius: 5px; background: #fff; pointer-events: none; }
+.home-screen::before { background: #10221b22; backdrop-filter: blur(3px); }
+.home-content { padding: 92px 23px 45px; justify-content: flex-start; }
+.home-date { color: #fff; font-size: 12px; text-align: center; text-shadow: 0 1px 6px #14271d55; margin-bottom: 37px; }
+.home-date span { display: block; font-size: 21px; font-weight: 500; letter-spacing: -.6px; margin-top: 7px; }
+.app-grid { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 28px 12px; margin: 0; }
+.app-tile { gap: 9px; padding: 0; transition: transform .18s; }
+.app-tile:active { transform: scale(.91); }
+.icon-wrap { position: relative; }
+.app-icon { width: 17cqw; height: 17cqw; max-width: 64px; max-height: 64px; border-radius: 23%; box-shadow: inset 0 1px 1px #ffffff55, 0 4px 10px #16251c26; color: #fff; }
+.app-icon svg { width: 78%; height: 78%; }
+.icon-messages,.icon-phone { background: linear-gradient(#6bdb7a,#29b94f); }
+.icon-mail { background: linear-gradient(#70b9f4,#247cda); }
+.icon-tinder { background: linear-gradient(35deg,#ff785d,#ed456f); }
+.icon-notes { background: #faf9f3; }.icon-photos { background: #fff; }
+.app-badge { position: absolute; top: -6px; right: -11px; min-width: 31px; border-radius: 20px; background: #ed453e; color: white; font-size: 12px; padding: 3px 5px; box-shadow: 0 2px 5px #44241d33; }
+.app-name { font-size: 12px; font-weight: 400; }
+.home-indicator { position: absolute; bottom: 9px; left: 34%; width: 32%; height: 5px; border: 0; padding: 0; border-radius: 9px; background: #262b26; z-index: 55; cursor: pointer; }
+.home-indicator::before { content: ''; position: absolute; inset: -12px -20px; }
+.home-screen ~ .home-indicator { background: #fff; }
+.app-window { padding-top: 55px; padding-bottom: 28px; min-height: 0; animation: screenIn .24s ease; }
+.header-bar { flex-shrink: 0; height: 49px; padding: 0 16px; }
+.screen-title { margin: 0 !important; font-size: 16px; }
+.header-left,.header-right { min-width: 34px; }
+.messages-header { padding: 6px 20px 16px; }
+.messages-header h1 { font-size: 31px; letter-spacing: -1px; margin: 4px 0 15px; }
+.search-box { padding: 10px 12px; font-size: 14px; }
+.conversation-list { height: auto; flex: 1; min-height: 0; }
+.conversation-item { padding: 17px 18px; gap: 12px; border-bottom: 1px solid #252d2210; }
+.contact-name { font-size: 14px; }.preview-text { font-size: 12px; }.row-chevron { color: #a0a49e; font-size: 22px; }
+.avatar { width: 44px; height: 44px; font-size: 14px; }
+.chat-screen { height: auto; flex: 1; min-height: 0; background: #fff; }
+.chat-header { padding: 10px 18px; }.chat-name { font-size: 13px; font-weight: 500; }
+.chat-body { min-height: 0; padding: 20px 14px; gap: 8px; }
+.chat-bubble { font-size: 14px; box-shadow: none; }
+.chat-row { gap: 7px; }.typing-avatar { flex-shrink: 0; margin-top: auto; }
+.bubble-stack { flex-direction: column !important; align-items: flex-end; }.read-mark { font-size: 9px; }
+.chat-input-box { padding: 12px 15px; }.chat-input { border: 1px solid #dddeda; background: #fff; font-size: 12px; cursor: default; }
+.notes-list { padding: 15px; }.note-lock { font-size: 10px; }.empty-state { text-align: center; font-size: 13px; color: #7e847d; line-height: 1.8; margin: auto; }
+button:focus-visible, input:focus-visible { outline: 3px solid #418cd5; outline-offset: 3px; }
+.popup-overlay { backdrop-filter: blur(6px); }.popup-card { background: #f5f7f0ed; }.popup-actions button { background: transparent; color: #287bce; width: 100%; padding: 2px; }.popup-message { font-size: 13px; }
+@keyframes screenIn { from { opacity: 0; transform: scale(1.025); } to { opacity: 1; transform: scale(1); } }
+@media(max-width: 500px) {
+ .app-shell { padding: 12px; min-height: 100dvh; }
+ .iphone-frame { width: min(calc(100vw - 24px),calc((100dvh - 24px)*.475)); height: auto; border: 3px solid #8b8c86; border-radius: 49px; padding: 7px; }
+ .iphone-screen { border-radius: 39px; }
+}
+@media(prefers-reduced-motion: reduce) { *,*::before,*::after { animation: none !important; transition: none !important; } }
