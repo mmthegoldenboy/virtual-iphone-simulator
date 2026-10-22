@@ -4,7 +4,7 @@ export type Message = {
   id: string;
   sender: "other" | "me";
   content: string;
-  time: string;
+  time?: string;
   read?: boolean;
 };
 
@@ -34,7 +34,7 @@ export const conversations: Conversation[] = [
       { id: "me-1", sender: "me", content: "무슨 일인데요?" },
       { id: "me-2", sender: "me", content: "괜찮아요?" },
       { id: "me-3", sender: "me", content: "나는 개 목걸이 차고 있는데 토끼가 없으면 혼자 웃기잖아요." },
-      { id: "me-4", sender: "me", content: "내가 돕게 해 줘요." read: true },
+      { id: "me-4", sender: "me", content: "내가 돕게 해 줘요.", read: true },
     ],
   },
   {

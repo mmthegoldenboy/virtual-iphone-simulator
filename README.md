@@ -42,7 +42,9 @@
 
 ## 배포 준비
 
-Vercel에 업로드하려면 GitHub 저장소를 만들고, Vercel에서 "Import Project"를 선택하면 됩니다.
+Netlify는 저장소의 `netlify.toml` 설정에 따라 `npm run build`를 실행하고, 생성된 `out` 폴더를 게시합니다. 이 프로젝트는 Next.js 정적 내보내기(`output: "export"`)를 사용하므로 게시 폴더는 `out`이어야 합니다.
+
+배포가 완료되면 https://ilyarozanov-rookie.netlify.app/ 에서 사이트를 열 수 있습니다.
 
 ## 추가로 바꾸기
 
