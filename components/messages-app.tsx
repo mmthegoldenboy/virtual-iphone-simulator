@@ -43,7 +43,6 @@ export default function MessagesApp({ onClose }: MessagesAppProps) {
 
       <div className="conversation-list">
         {contacts.map((item) => {
-          const lastMessage = conversation.messages.at(-1);
           return (
             <button key={item.id} className="conversation-item" type="button">
               <div className={`avatar ${item.id === "captain-hollander" ? "blue" : "green"}`}>
@@ -53,7 +52,6 @@ export default function MessagesApp({ onClose }: MessagesAppProps) {
               <div className="conversation-meta">
                 <div className="contact-name-row">
                   <span className="contact-name">{getDisplayName(item)}</span>
-                  <span className="last-time">{lastMessage?.time ?? "지금"}</span>
                 </div>
 
                 <div className="preview-row">
