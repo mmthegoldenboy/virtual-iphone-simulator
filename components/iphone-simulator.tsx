@@ -12,10 +12,7 @@ import UnavailablePopup from "@/components/unavailable-popup";
 
 type Screen = "lock" | "home" | "messages" | "notes";
 
-type BlockedApp = {
-  title: string;
-  message: string;
-} | null;
+type BlockedApp = { title: string; message: string } | null;
 
 export default function IphoneSimulator() {
   const { time, date } = useClock();
@@ -31,14 +28,14 @@ export default function IphoneSimulator() {
       return;
     }
 
-    if (app.id === "music" && app.url) {
+    if (app.url) {
       window.open(app.url, "_blank", "noopener,noreferrer");
       return;
     }
 
     setBlockedApp({
-      title: app.popupTitle ?? "이 콘텐츠는 열람할 수 없습니다.",
-      message: app.popupMessage ?? "이 앱은 이 시뮬레이터에서 지원하지 않습니다.",
+      title: app.popupTitle ?? app.name,
+      message: app.popupMessage ?? "이 콘텐츠는 열람할 수 없습니다.",
     });
   }
 
@@ -48,12 +45,20 @@ export default function IphoneSimulator() {
   return (
     <main className="app-shell">
       <div className="iphone-frame">
+        <span className="side-button side-action" aria-hidden="true" />
+        <span className="side-button side-volume-up" aria-hidden="true" />
+        <span className="side-button side-volume-down" aria-hidden="true" />
+        <span className="side-button side-power" aria-hidden="true" />
+
         <div className="iphone-screen">
-          <div className="notch" aria-hidden="true" />
+          <div className="dynamic-island" aria-hidden="true" />
           <StatusBar time={time} dark={inApp} />
 
-          {screen === "lock" && <LockScreen time={time} date={date} onUnlock={goHome} />}
-          {screen !== "lock" && <HomeScreen onOpenApp={openApp} />}
+          {screen === "lock" ? (
+            <LockScreen time={time} date={date} onUnlock={goHome} />
+          ) : (
+            <HomeScreen onOpenApp={openApp} dimmed={inApp} />
+          )}
           {screen === "messages" && <MessagesApp onClose={goHome} />}
           {screen === "notes" && <NotesApp onClose={goHome} />}
 
@@ -62,6 +67,15 @@ export default function IphoneSimulator() {
               title={blockedApp.title}
               message={blockedApp.message}
               onClose={() => setBlockedApp(null)}
+            />
+          )}
+
+          {screen !== "lock" && (
+            <button
+              type="button"
+              className={`home-indicator${inApp ? " dark" : ""}`}
+              onClick={goHome}
+              aria-label="홈으로 이동"
             />
           )}
         </div>

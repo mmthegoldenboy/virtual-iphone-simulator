@@ -1,12 +1,12 @@
-// 실제 화면을 구현할 때 필요한 구성 요소를 한 번에 보관합니다.
-// 뒤에서 실제 이미지를 넣고 싶다면 public/images 폴더에 같은 이름의 파일을 추가하면 됩니다.
-const base = "";
-
+// 화면에서 사용하는 이미지 경로입니다. 모든 파일은 public/images 폴더에 있습니다.
+// 이미지를 바꾸고 싶다면 같은 이름의 PNG 파일로 교체하면 됩니다.
 export const imagePaths = {
-  lockscreen: base ? `${base}/lockscreen.jpg` : "/images/lockscreen.svg",
-  homescreen: base ? `${base}/homescreen.jpg` : "/images/homescreen.svg",
-  messages: base ? `${base}/messages.png` : "/images/messages.svg",
-  notes: base ? `${base}/notes.png` : "/images/notes.svg",
-  chatBackground: base ? `${base}/chat-bg.jpg` : "/images/chat-bg.svg",
-  notesBackground: base ? `${base}/notes-bg.jpg` : "/images/notes-bg.svg",
-};
+  lockscreen: "/images/lockscreen.png",
+  homescreen: "/images/homescreen.png",
+  messages: "/images/messages.png",
+  notes: "/images/notes.png",
+  music: "/images/music.png",
+  mail: "/images/mail.png",
+  phone: "/images/phone.png",
+  photos: "/images/photos.png",
+} as const;

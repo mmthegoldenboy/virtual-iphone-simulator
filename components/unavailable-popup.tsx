@@ -1,17 +1,39 @@
+"use client";
+
+import { useEffect } from "react";
+
 type UnavailablePopupProps = {
-  appName: string;
+  title: string;
+  message: string;
   onClose: () => void;
 };
 
-export default function UnavailablePopup({ appName, onClose }: UnavailablePopupProps) {
+export default function UnavailablePopup({ title, message, onClose }: UnavailablePopupProps) {
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
   return (
-    <div className="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popup-title">
-      <div className="popup-card">
+    <div
+      className="popup-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="popup-title"
+      aria-describedby="popup-message"
+      onClick={onClose}
+    >
+      <div className="popup-card" onClick={(e) => e.stopPropagation()}>
         <div className="popup-content">
-          <div id="popup-title" className="popup-title">
-            {appName}
-          </div>
-          <div className="popup-message">이 앱은 열람할 수 없습니다.</div>
+          <h2 id="popup-title" className="popup-title">
+            {title}
+          </h2>
+          <p id="popup-message" className="popup-message">
+            {message}
+          </p>
         </div>
         <div className="popup-actions">
           <button type="button" onClick={onClose} autoFocus>

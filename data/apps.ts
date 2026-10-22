@@ -1,85 +1,84 @@
-export const appArtwork = {
-  messages: "/images/messages.svg",
-  notes: "/images/notes.svg",
-  music: "/images/music.svg",
-  lockscreen: "/images/lockscreen.svg",
-  homescreen: "/images/homescreen.svg",
-  chatBackground: "/images/chat-bg.svg",
-  notesBackground: "/images/notes-bg.svg",
+// 홈 화면 앱 목록입니다.
+// image 가 있으면 PNG 아이콘을, 없으면 glyph 기본 아이콘을 표시합니다.
+// dock: true 인 앱은 화면 하단 독에 배치됩니다.
+import { imagePaths } from "@/data/image-paths";
+
+export type AppGlyph = "contacts" | "tinder" | "clock";
+
+export type AppInfo = {
+  id: string;
+  name: string;
+  image?: string;
+  glyph?: AppGlyph;
+  dock?: boolean;
+  popupTitle?: string;
+  popupMessage?: string;
+  url?: string;
 };
 
-export const apps = [
-  {
-    id: "messages",
-    name: "메시지",
-    icon: "💬",
-    image: appArtwork.messages,
-    popupTitle: null,
-    popupMessage: null,
-  },
+const LOCKED_MESSAGE = "이 콘텐츠는 열람할 수 없습니다.";
+
+export const apps: AppInfo[] = [
   {
     id: "photos",
     name: "사진",
-    icon: "🖼️",
-    image: "",
+    image: imagePaths.photos,
     popupTitle: "사진",
-    popupMessage: "이 콘텐츠는 열람할 수 없습니다.",
+    popupMessage: LOCKED_MESSAGE,
   },
   {
     id: "notes",
     name: "메모",
-    icon: "📝",
-    image: appArtwork.notes,
-    popupTitle: null,
-    popupMessage: null,
-  },
-  {
-    id: "phone",
-    name: "전화",
-    icon: "📞",
-    image: "",
-    popupTitle: "전화",
-    popupMessage: "이 콘텐츠는 열람할 수 없습니다.",
+    image: imagePaths.notes,
   },
   {
     id: "contacts",
     name: "연락처",
-    icon: "👥",
-    image: "",
+    glyph: "contacts",
     popupTitle: "연락처",
-    popupMessage: "이 콘텐츠는 열람할 수 없습니다.",
+    popupMessage: LOCKED_MESSAGE,
   },
   {
     id: "tinder",
     name: "Tinder",
-    icon: "💘",
-    image: "",
+    glyph: "tinder",
     popupTitle: "Tinder",
-    popupMessage: "이 콘텐츠는 열람할 수 없습니다.",
-  },
-  {
-    id: "mail",
-    name: "메일",
-    icon: "✉️",
-    image: "",
-    popupTitle: "메일",
-    popupMessage: "이 콘텐츠는 열람할 수 없습니다.",
-  },
-  {
-    id: "music",
-    name: "음악",
-    icon: "🎵",
-    image: appArtwork.music,
-    popupTitle: "음악",
-    popupMessage: "YouTube 음악 페이지로 이동합니다.",
-    url: "https://www.youtube.com/results?search_query=lofi+beats",
+    popupMessage: LOCKED_MESSAGE,
   },
   {
     id: "clock",
     name: "시계",
-    icon: "⏰",
-    image: "",
+    glyph: "clock",
     popupTitle: "시계",
-    popupMessage: "이 콘텐츠는 열람할 수 없습니다.",
+    popupMessage: LOCKED_MESSAGE,
+  },
+  {
+    id: "phone",
+    name: "전화",
+    image: imagePaths.phone,
+    dock: true,
+    popupTitle: "전화",
+    popupMessage: LOCKED_MESSAGE,
+  },
+  {
+    id: "messages",
+    name: "메시지",
+    image: imagePaths.messages,
+    dock: true,
+  },
+  {
+    id: "mail",
+    name: "메일",
+    image: imagePaths.mail,
+    dock: true,
+    popupTitle: "메일",
+    popupMessage: LOCKED_MESSAGE,
+  },
+  {
+    id: "music",
+    name: "음악",
+    image: imagePaths.music,
+    dock: true,
+    url: "https://www.youtube.com/results?search_query=lofi+beats",
   },
 ];
