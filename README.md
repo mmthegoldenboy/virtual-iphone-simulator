@@ -1,54 +1,22 @@
-# Virtual iPhone Simulator
+# iPhone 시뮬레이터
 
-이 프로젝트는 실제 iPhone처럼 보이는 가상 모바일 화면을 담은 Next.js 웹사이트입니다.
+Next.js 14, React, TypeScript로 만든 한국어 단일 페이지 시뮬레이터입니다. 홈 화면에서 메시지와 메모를 열고, 하단 홈 막대를 누르면 돌아옵니다. 오른쪽 측면 버튼으로 화면을 잠그거나 잠금을 해제합니다.
 
-## 실행 방법
+## 개발
 
-1. 의존성 설치
-   ```bash
-   npm install
-   ```
-2. 개발 서버 실행
-   ```bash
-   npm run dev
-   ```
-3. 브라우저에서 열기
-   ```text
-   http://localhost:3000
-   ```
+`npm install` 후 `npm run dev`로 실행합니다. `npm run lint`와 `npx tsc --noEmit`으로 코드를 확인합니다.
 
-## 주요 기능
+## 데이터와 이미지
 
-- 잠금 화면
-- 잠금 해제 후 홈 화면
-- 메시지 목록 / 대화 화면
-- 메모 목록 / 상세 화면 / 잠금 메모 확인
-- 열람 불가 앱의 안내 팝업
-- 이미지가 없을 때 기본 배경과 아이콘으로 동작
+- `data/apps.ts`: 앱 이름, 대체 아이콘, 안내 문구와 독 구성
+- `data/image-paths.ts`: 모든 이미지 경로
+- `data/contacts.ts`: 연락처와 이름/아바타 대체 표시
+- `data/conversations.ts`: 대화 내용
+- `data/notes.ts`: 메모 내용과 잠금 화면 데모 설정
+- `data/notifications.ts`: 잠금 화면 알림
 
-## 데이터 수정
+이미지는 `public/images/`에 둡니다. 이미지 로딩에 실패하면 아이콘은 글리프로, 배경은 기본 색상으로 표시됩니다. 대화는 읽기 전용이며 메모 잠금은 UI 시뮬레이션입니다. 실제 인증이나 저장 기능은 없습니다.
 
-- `data/apps.ts`: 앱 목록과 아이콘 설정
-- `data/contacts.ts`: 연락처 및 메시지 미리보기 수정
-- `data/conversations.ts`: 대화 메시지 추가/수정
-- `data/notes.ts`: 메모 및 잠금 메모 비밀번호 수정
-- `data/notifications.ts`: 잠금 화면 알림 수정
+## Netlify
 
-## 이미지 추가
-
-- `public/images/` 폴더에 파일을 넣으면 됩니다.
-- 예시: `lockscreen.svg`, `homescreen.svg`, `messages.svg`, `notes.svg`, `chat-bg.svg`, `notes-bg.svg`
-- 파일명이 없으면 기본 배경과 아이콘으로 화면이 정상 동작합니다.
-
-## 배포 준비
-
-Vercel에 업로드하려면 GitHub 저장소를 만들고, Vercel에서 "Import Project"를 선택하면 됩니다.
-
-## 추가로 바꾸기
-
-- 메시지 텍스트와 순서: `data/conversations.ts`
-- 메모 내용: `data/notes.ts`
-- 홈 화면 앱 이름: `data/apps.ts`
-- 잠금 화면 알림: `data/notifications.ts`
-
-문제가 있으면 데이터 파일만 수정하면 화면이 바로 반영됩니다.
+`netlify.toml`은 `npm run build`와 게시 디렉터리 `out`을 설정합니다. Next.js의 `output: "export"`로 정적 파일을 생성하며, 서버 함수나 Vercel 전용 기능이 필요하지 않습니다. 모든 화면은 루트 경로 안에서 전환됩니다. 도메인에 맞춘 별도의 base path는 필요하지 않습니다.

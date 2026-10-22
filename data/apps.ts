@@ -1,21 +1,10 @@
-// 앱 아이콘 및 화면별 이미지 경로를 쉽게 수정할 수 있게 한 곳에 모아둡니다.
-// 필요하면 파일명을 바꾸거나 실제 이미지 파일을 추가해도 됩니다.
-
-export const appArtwork = {
-  messages: "/images/messages.png",
-  notes: "/images/notes.png",
-  music: "/images/music.png",
-  lockscreen: "/images/lockscreen.png",
-  homescreen: "/images/homescreen.png",
-  chatBackground: "",
-  notesBackground: "",
-};
+import { imagePaths as appArtwork } from "./image-paths";
 
 export const apps = [
   {
     id: "messages",
     name: "메시지",
-    icon: "💬",
+    icon: "●",
     image: appArtwork.messages,
     popupTitle: null,
     popupMessage: null,
@@ -23,15 +12,15 @@ export const apps = [
   {
     id: "photos",
     name: "사진",
-    icon: "🖼️",
-    image: "/images/photos.png",
+    icon: "✿",
+    image: appArtwork.photos,
     popupTitle: "사진",
     popupMessage: "이 콘텐츠는 열람할 수 없습니다.",
   },
   {
     id: "notes",
     name: "메모",
-    icon: "📝",
+    icon: "≡",
     image: appArtwork.notes,
     popupTitle: null,
     popupMessage: null,
@@ -39,15 +28,15 @@ export const apps = [
   {
     id: "phone",
     name: "전화",
-    icon: "📞",
-    image: "/images/phone.png",
+    icon: "☎",
+    image: appArtwork.phone,
     popupTitle: "전화",
     popupMessage: "이 콘텐츠는 열람할 수 없습니다.",
   },
   {
     id: "contacts",
     name: "연락처",
-    icon: "👥",
+    icon: "◎",
     image: "",
     popupTitle: "연락처",
     popupMessage: "이 콘텐츠는 열람할 수 없습니다.",
@@ -55,7 +44,7 @@ export const apps = [
   {
     id: "tinder",
     name: "Tinder",
-    icon: "💘",
+    icon: "♨",
     image: "",
     popupTitle: "Tinder",
     popupMessage: "이 콘텐츠는 열람할 수 없습니다.",
@@ -63,15 +52,15 @@ export const apps = [
   {
     id: "mail",
     name: "메일",
-    icon: "✉️",
-    image: "/images/mail.png",
+    icon: "✉",
+    image: appArtwork.mail,
     popupTitle: "메일",
     popupMessage: "이 콘텐츠는 열람할 수 없습니다.",
   },
   {
     id: "music",
     name: "음악",
-    icon: "🎵",
+    icon: "♫",
     image: appArtwork.music,
     popupTitle: "음악",
     popupMessage: "YouTube 음악 페이지로 이동합니다.",
@@ -80,9 +69,11 @@ export const apps = [
   {
     id: "clock",
     name: "시계",
-    icon: "⏰",
+    icon: "◷",
     image: "",
     popupTitle: "시계",
     popupMessage: "이 콘텐츠는 열람할 수 없습니다.",
   },
 ];
+
+export const dockAppIds = ["phone", "messages", "mail", "music"];

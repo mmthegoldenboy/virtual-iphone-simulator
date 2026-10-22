@@ -5,7 +5,7 @@ export type Contact = {
   id: string;
   name?: string;
   phone?: string;
-  avatarText: string;
+  avatarText?: string;
   profileImage?: string;
   lastPreview: string;
   unreadCount?: number;
@@ -33,3 +33,16 @@ export const contacts: Contact[] = [
     lastPreview: "지금 통화 가능해?",
   },
 ];
+
+export function contactName(contact?: Contact): string {
+  return contact?.name?.trim() || contact?.phone?.trim() || "알 수 없는 연락처";
+}
+
+export function contactInitials(contact?: Contact): string {
+  return (
+    contact?.avatarText?.trim() ||
+    contact?.name?.trim().slice(0, 2) ||
+    contact?.phone?.replace(/\D/g, "").slice(-2) ||
+    "?"
+  );
+}
