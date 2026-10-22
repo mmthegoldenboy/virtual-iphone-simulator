@@ -2,8 +2,8 @@ html, body {
   margin: 0;
   padding: 0;
   min-height: 100%;
-  background: linear-gradient(135deg, #f2f2f2 0%, #dadada 100%);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: linear-gradient(135deg, #efeef3 0%, #dfe2ea 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
   color: #111827;
 }
 
@@ -23,17 +23,17 @@ body {
 }
 
 :root {
-  --iphone-width: min(92vw, 420px);
-  --iphone-height: min(94vh, 900px);
+  --iphone-width: min(92vw, 430px);
+  --iphone-height: min(94vh, 920px);
   --screen-width: 100%;
   --screen-height: 100%;
   --system-gray: #8e8e93;
   --light-gray: #f5f5f5;
-  --dark-overlay: rgba(0, 0, 0, 0.38);
+  --dark-overlay: rgba(15, 18, 26, 0.45);
   --bubble-gray: #e5e5ea;
-  --message-blue: #1b9df2;
-  --text-strong: #191919;
-  --text-soft: rgba(25, 25, 25, 0.66);
+  --message-blue: #1f9cff;
+  --text-strong: #16181d;
+  --text-soft: rgba(22, 24, 29, 0.66);
 }
 
 .app-shell {
@@ -42,18 +42,18 @@ body {
   justify-content: center;
   width: 100vw;
   min-height: 100vh;
-  padding: 20px;
+  padding: 18px;
 }
 
 .iphone-frame {
   position: relative;
   width: var(--iphone-width);
   height: var(--iphone-height);
-  background: #090909;
-  border-radius: 38px;
-  border: 4px solid #0a0a0a;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
-  padding: 14px;
+  background: linear-gradient(180deg, #0c0d12 0%, #090b10 100%);
+  border-radius: 42px;
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.28);
+  padding: 8px;
 }
 
 .iphone-screen {
@@ -61,8 +61,8 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  border-radius: 30px;
-  background: #fff;
+  border-radius: 34px;
+  background: #f5f5f5;
 }
 
 .notch {
@@ -70,10 +70,10 @@ body {
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 140px;
-  height: 28px;
+  width: 156px;
+  height: 32px;
   border-radius: 18px;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.86);
   z-index: 50;
 }
 
@@ -86,11 +86,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px 0;
+  padding: 12px 18px 0;
   color: #fff;
   z-index: 10;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.03em;
 }
 
 .status-left {
@@ -103,10 +104,24 @@ body {
   align-items: center;
 }
 
+.status-bar.dark {
+  color: #111827;
+}
+
+.status-bar.dark .signal span,
+.status-bar.dark .battery::before,
+.status-bar.dark .battery::after {
+  background: #111827;
+}
+
+.status-bar.dark .battery {
+  border-color: #111827;
+}
+
 .signal {
   display: inline-flex;
-  gap: 3px;
   align-items: end;
+  gap: 3px;
 }
 
 .signal span {
@@ -143,7 +158,7 @@ body {
 .battery::before {
   content: "";
   position: absolute;
-  inset: 2px 2px 2px 2px;
+  inset: 2px;
   border-radius: 2px;
   background: rgba(255, 255, 255, 0.9);
 }
@@ -152,7 +167,6 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-  padding-top: 16px;
   background-size: cover;
   background-position: center;
   overflow: hidden;
@@ -162,7 +176,7 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.35));
+  background: linear-gradient(180deg, rgba(4, 8, 18, 0.18), rgba(4, 8, 18, 0.52));
 }
 
 .lock-screen-content {
@@ -170,31 +184,31 @@ body {
   z-index: 1;
   width: 100%;
   height: 100%;
-  padding: 60px 22px 20px;
+  padding: 62px 22px 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
 .lock-time {
-  font-size: clamp(4rem, 12vw, 5.3rem);
+  font-size: clamp(4.1rem, 12vw, 5.5rem);
   font-weight: 300;
-  letter-spacing: -0.08em;
+  letter-spacing: -0.09em;
   color: #fff;
   line-height: 0.9;
 }
 
 .lock-date {
-  margin-top: 8px;
+  margin-top: 10px;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   color: rgba(255, 255, 255, 0.9);
 }
 
 .notification-stack {
   position: relative;
   width: 100%;
-  height: 180px;
+  height: 175px;
   margin-top: 12px;
 }
 
@@ -202,12 +216,12 @@ body {
   position: absolute;
   left: 0;
   right: 0;
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 18px;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
   padding: 12px 14px;
   color: #fff;
 }
@@ -228,19 +242,19 @@ body {
   align-items: center;
   gap: 8px;
   font-size: 0.8rem;
-  opacity: 0.86;
+  opacity: 0.9;
 }
 
 .notification-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #ff3259;
+  background: #ff2d55;
 }
 
 .notification-body {
   font-size: 0.92rem;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.35;
 }
 
@@ -261,31 +275,32 @@ body {
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
   font-size: 1.5rem;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
 }
 
 .unlock-row {
   display: flex;
   justify-content: center;
   width: 100%;
-  padding-bottom: 16px;
+  padding-bottom: 18px;
+  background: rgba(0,0,0,0.1);
 }
 
 .unlock-pill {
-  width: min(72%, 240px);
+  width: min(74%, 250px);
   height: 42px;
   border: none;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.18);
   color: white;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.02em;
   cursor: pointer;
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.24);
@@ -294,7 +309,7 @@ body {
 
 .unlock-pill:hover {
   transform: translateY(-1px);
-  background: rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.24);
 }
 
 .home-screen {
@@ -318,7 +333,7 @@ body {
   z-index: 1;
   width: 100%;
   height: 100%;
-  padding: 76px 24px 18px;
+  padding: 78px 22px 18px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -329,7 +344,7 @@ body {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 18px 10px;
   margin-top: auto;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .app-tile {
@@ -345,15 +360,15 @@ body {
 }
 
 .app-icon {
-  width: 58px;
-  height: 58px;
-  border-radius: 16px;
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0.15));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 8px 15px rgba(0,0,0,0.18);
-  font-size: 1.35rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.34), rgba(255,255,255,0.12));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 12px 18px rgba(0,0,0,0.18);
+  font-size: 1.5rem;
   overflow: hidden;
 }
 
@@ -365,8 +380,8 @@ body {
 
 .app-name {
   font-size: 0.72rem;
-  font-weight: 600;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.33);
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 .app-window {
@@ -375,7 +390,7 @@ body {
   background: #f5f5f5;
   display: flex;
   flex-direction: column;
-  z-index: 5;
+  z-index: 20;
 }
 
 .header-bar {
@@ -397,7 +412,6 @@ body {
 }
 
 .back-button,
-.close-button,
 .circle-button {
   border: none;
   background: rgba(0, 0, 0, 0.06);
@@ -419,11 +433,6 @@ body {
   font-size: 1.06rem;
   font-weight: 700;
   color: #111827;
-}
-
-.messages-list-screen {
-  background: #f3f3f5;
-  height: 100%;
 }
 
 .messages-header {
@@ -905,18 +914,4 @@ body {
 
 .app-window.chat-screen {
   position: absolute;
-}
-
-.status-bar.dark {
-  color: #111827;
-}
-
-.status-bar.dark .signal span,
-.status-bar.dark .battery::before,
-.status-bar.dark .battery::after {
-  background: #111827;
-}
-
-.status-bar.dark .battery {
-  border-color: #111827;
 }

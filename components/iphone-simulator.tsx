@@ -12,17 +12,34 @@ import UnavailablePopup from "@/components/unavailable-popup";
 
 type Screen = "lock" | "home" | "messages" | "notes";
 
+type BlockedApp = {
+  title: string;
+  message: string;
+} | null;
+
 export default function IphoneSimulator() {
   const { time, date } = useClock();
   const [screen, setScreen] = useState<Screen>("lock");
-  const [blockedApp, setBlockedApp] = useState<string | null>(null);
+  const [blockedApp, setBlockedApp] = useState<BlockedApp>(null);
 
   function openApp(id: string) {
-    if (id === "messages" || id === "notes") {
-      setScreen(id);
+    const app = apps.find((item) => item.id === id);
+    if (!app) return;
+
+    if (app.id === "messages" || app.id === "notes") {
+      setScreen(app.id);
       return;
     }
-    setBlockedApp(apps.find((a) => a.id === id)?.name ?? id);
+
+    if (app.id === "music" && app.url) {
+      window.open(app.url, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    setBlockedApp({
+      title: app.popupTitle ?? "이 콘텐츠는 열람할 수 없습니다.",
+      message: app.popupMessage ?? "이 앱은 이 시뮬레이터에서 지원하지 않습니다.",
+    });
   }
 
   const goHome = () => setScreen("home");
@@ -41,7 +58,11 @@ export default function IphoneSimulator() {
           {screen === "notes" && <NotesApp onClose={goHome} />}
 
           {blockedApp && (
-            <UnavailablePopup appName={blockedApp} onClose={() => setBlockedApp(null)} />
+            <UnavailablePopup
+              title={blockedApp.title}
+              message={blockedApp.message}
+              onClose={() => setBlockedApp(null)}
+            />
           )}
         </div>
       </div>
